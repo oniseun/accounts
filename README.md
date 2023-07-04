@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Account CRUD API
 
 
 ## Recommended!! Running the app with docker (very simple and easy)
