@@ -17,6 +17,22 @@ services:
         ipv4_address: 172.26.0.20
         aliases:
           - posgres.db.local
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    links:
+      - postgres-db
+    networks:
+      accounts-network:
+        ipv4_address: 172.26.0.21
+        aliases:
+          - posgres.admin.local
   backend:
     container_name: accounts-backend
     build:

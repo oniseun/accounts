@@ -36,11 +36,24 @@ You do not need to setup any database, docker will bootsrap all resources includ
 # development
 $ docker-compose up
 
-# head to swagger link to see how the api works and all the endpoints available
+# head to swagger link to see how the api works and play around with all the endpoints available
 $ localhost:4000/swagger
 
 # api endpoint itself
 $ localhost:4000/accounts
+
+# (optional) To connect to postgres admin to manager the database 
+$ localhost:5050/
+
+Credentials
+  - email: admin@admin.com
+  - password: password
+
+Database server
+  - POSTGRES_HOST=172.26.0.20
+  - POSTGRES_USER=postgres
+  - POSTGRES_PASSWORD=password
+  - POSTGRES_DB=account
 ```
 
 ## Installation (without docker)
