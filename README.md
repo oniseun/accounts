@@ -37,10 +37,10 @@ You do not need to setup any database, docker will bootsrap all resources includ
 $ docker-compose up
 
 # head to swagger link to see how the api works and all the endpoints available
-$ localhost:3000/swagger
+$ localhost:4000/swagger
 
 # api endpoint itself
-$ localhost:3000/accounts
+$ localhost:4000/accounts
 ```
 
 ## Installation (without docker)
@@ -59,9 +59,15 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# head to swagger link to see how the api works and all the endpoints available
+$ localhost:3000/swagger
+
+# api endpoint itself
+$ localhost:3000/accounts
 ```
 
-## Test
+## Test locally
 
 ```bash
 # unit tests

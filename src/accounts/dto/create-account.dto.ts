@@ -5,8 +5,7 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
-  Max,
-  Min,
+  Length,
 } from 'class-validator';
 import { Gender } from '../account.entity';
 
@@ -16,8 +15,7 @@ export class CreateAccountDto {
     description: 'The First Given Name',
   })
   @IsString()
-  @Min(5)
-  @Max(25)
+  @Length(3, 25)
   firstName: string;
 
   @ApiProperty({
@@ -25,8 +23,7 @@ export class CreateAccountDto {
     description: 'The last given name (family name)',
   })
   @IsString()
-  @Min(5)
-  @Max(25)
+  @Length(3, 25)
   lastName: string;
 
   @ApiProperty({
@@ -46,7 +43,7 @@ export class CreateAccountDto {
   gender: Gender;
 
   @ApiProperty({
-    example: '01234567891',
+    example: '+4477722345',
     description: 'The phone number with country code',
   })
   @IsPhoneNumber()

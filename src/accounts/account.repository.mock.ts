@@ -26,7 +26,6 @@ export default class AccountRepositoryMock extends AccountRepository {
       const ud = new Date();
       ud.setSeconds(ud.getSeconds() + 60);
       this.accountStore[accountIndex].dateUpdated = ud;
-      console.log({ ud: ud.getTime() });
 
       return this.accountStore[accountIndex];
     }

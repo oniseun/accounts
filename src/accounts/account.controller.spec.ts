@@ -114,6 +114,7 @@ describe('AccountController', () => {
     it('should update an account with a specific id', async () => {
       jest.spyOn(accountService, 'getAccounts');
       jest.spyOn(accountService, 'updateAccount');
+      jest.spyOn(accountController, 'get');
       const oldAccountInfo: CreateAccountDto = {
         firstName: 'Mrs',
         lastName: 'WordSmith',
@@ -139,6 +140,7 @@ describe('AccountController', () => {
         create.id,
         newInfo,
       );
+      expect(accountController.get).toHaveBeenCalledWith(create.id);
       expect(accountService.updateAccount).toHaveBeenCalledWith(
         create.id,
         newInfo,

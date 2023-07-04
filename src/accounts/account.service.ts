@@ -15,7 +15,7 @@ export class AccountService {
 
   async getAccount(id: string): Promise<Account> {
     return await this.accountRepository.findOne({
-      where: [{ id }],
+      where: { id },
     });
   }
 
@@ -24,8 +24,16 @@ export class AccountService {
   }
 
   async updateAccount(id: string, account: Partial<Account>) {
-    account.id = id;
-    return await this.accountRepository.save(account);
+    const newAccount = Object.keys(account).reduce(
+      (newProp, prop) => {
+        if (account[prop] !== null && account[prop].length > 0) {
+          newProp[prop] = account[prop];
+        }
+        return newProp;
+      },
+      { id },
+    );
+    return await this.accountRepository.save(newAccount);
   }
 
   async deleteAccount(id: string) {

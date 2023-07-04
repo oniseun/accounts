@@ -16,6 +16,8 @@ import { Account } from './accounts/account.entity';
       database: process.env.POSTGRES_DATABASE || 'account',
       entities: [Account],
       synchronize: true,
+      autoLoadEntities: true,
+      logging: true,
     }),
     AccountModule,
   ],

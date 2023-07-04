@@ -24,17 +24,17 @@ export class Account {
   @Column({ length: 25, name: 'last_name' })
   lastName: string;
 
-  @Column({ type: 'text', name: 'email' })
+  @Column({ length: 35, name: 'email_address', unique: true })
   email: string;
+
+  @Column({ length: 15, name: 'phone_number', unique: true })
+  phone: string;
 
   @Column({
     enum: Gender,
     default: 'N',
   })
   gender: Gender;
-
-  @Column({ length: 12 })
-  phone: string;
 
   @Column({ type: 'text', nullable: true })
   address: string;

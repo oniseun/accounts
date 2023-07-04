@@ -1,0 +1,10 @@
+# Dependency directories
+node_modules/
+# the all editor specific folder
+.idea
+.vscode
+.dockerignore
+.env
+test.js
+.config
+dist/

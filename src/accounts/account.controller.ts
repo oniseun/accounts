@@ -11,7 +11,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { AccountService } from './account.service';
-import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { GetAccountDto } from './dto/get-account.dto';
 import { CreateAccountDto } from './dto/create-account.dto';
 
@@ -56,8 +56,12 @@ export class AccountController {
     description: 'Not found',
   })
   async get(@Param('id') id: string): Promise<GetAccountDto> {
-    const response = await this.service.getAccount(id);
-    return GetAccountDto.TypeOrmEntity(response);
+    try {
+      const response = await this.service.getAccount(id);
+      return GetAccountDto.TypeOrmEntity(response);
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
   }
 
   @Post()
@@ -65,6 +69,7 @@ export class AccountController {
     summary: 'Creates an account',
     description: 'creates account entry based on payload',
   })
+  @ApiBody({ type: CreateAccountDto })
   @ApiResponse({
     status: 200,
     description: 'Returns the new account created ',
@@ -77,13 +82,12 @@ export class AccountController {
   async create(
     @Body() createAccountDto: CreateAccountDto,
   ): Promise<GetAccountDto> {
-    const create = await this.service.createAccount(createAccountDto);
-    if (!create) {
-      throw new BadRequestException(
-        `Email or phone number likely already exist`,
-      );
+    try {
+      const create = await this.service.createAccount(createAccountDto);
+      return GetAccountDto.TypeOrmEntity(create);
+    } catch (e) {
+      throw new BadRequestException(e.message);
     }
-    return GetAccountDto.TypeOrmEntity(create);
   }
 
   @Put(':id')
@@ -100,23 +104,18 @@ export class AccountController {
     status: 403,
     description: 'Forbidden, Email or phone number already exist',
   })
+  @ApiBody({ type: CreateAccountDto })
   async update(
     @Param('id') id: string,
     @Body() updateAccountDto: Partial<CreateAccountDto>,
   ): Promise<GetAccountDto> {
-    const account = await this.get(id);
-    if (account) {
+    try {
+      await this.get(id);
       const update = await this.service.updateAccount(id, updateAccountDto);
-
-      if (!update) {
-        throw new ForbiddenException(
-          `Email or phone number likely already exist`,
-        );
-      }
       return GetAccountDto.TypeOrmEntity(update);
+    } catch (e) {
+      throw new ForbiddenException(e.message);
     }
-
-    throw new NotFoundException(`User with id : ${id} not found`);
   }
 
   @ApiResponse({
@@ -130,12 +129,12 @@ export class AccountController {
   })
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<GetAccountDto> {
-    const account = await this.get(id);
-    if (account) {
+    try {
+      const account = await this.get(id);
       await this.service.deleteAccount(id);
       return account;
+    } catch (e) {
+      throw new NotFoundException(e.message);
     }
-
-    throw new NotFoundException(`User with id : ${id} not found`);
   }
 }
