@@ -1,6 +1,7 @@
 version: '3.8'
 services:
-  db:
+  postgres-db:
+    container_name: accounts-db
     ports:
       - '${DATABASE_PORT:-5432}:5432'
     expose:
@@ -10,14 +11,35 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=account
-  db-testing:
+
+    networks:
+      accounts-network:
+        ipv4_address: 172.26.0.20
+        aliases:
+          - posgres.db.local
+  backend:
+    container_name: accounts-backend
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
-      - 5433:5432
-    expose:
-      - 5433
-    image: postgres:12-alpine
+      - "3000:3000"
+    links:
+      - postgres-db
     environment:
+      - POSTGRES_HOST=postgres-db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mw-testing
-      - POSTGRES_PORT=5433
+      - POSTGRES_DB=account
+    networks:
+      accounts-network:
+        ipv4_address: 172.26.0.22
+        aliases:
+          - accounts-backend.local
+
+networks:
+    accounts-network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.26.0.0/16

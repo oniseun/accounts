@@ -26,13 +26,29 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+
+## Recommended!! Running the app with docker (very simple and easy)
+
+
+You do not need to setup any database, docker will bootsrap all resources including the backend and database and host them both in a local subnet
+
+```bash
+# development
+$ docker-compose up
+
+# head to swagger link to see how the api works and all the endpoints available
+$ localhost:3000/swagger
+
+# api endpoint itself
+$ localhost:3000/accounts
+```
+
+## Installation (without docker)
 
 ```bash
 $ npm install
 ```
-
-## Running the app
+## Running the app locally (without docker)
 
 ```bash
 # development
